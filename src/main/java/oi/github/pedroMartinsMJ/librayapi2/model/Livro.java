@@ -2,22 +2,17 @@ package oi.github.pedroMartinsMJ.librayapi2.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Generated;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.UUID;
 
-@Data
 @Entity
 @Table(name = "livro")
 public class Livro {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private UUID id;
 
@@ -41,7 +36,9 @@ public class Livro {
     @ManyToOne
     @JoinColumn(name = "id_autor")
     private Autor autor;
+
     @Deprecated
-    public Livro(){
+    public Livro() {
+        //throw new UnsupportedOperationException("Use o construtor parametrizado.");
     }
 }

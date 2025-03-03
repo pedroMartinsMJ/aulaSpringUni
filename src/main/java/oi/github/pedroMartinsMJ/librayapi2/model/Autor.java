@@ -1,22 +1,19 @@
 package oi.github.pedroMartinsMJ.librayapi2.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-@Getter
-@Setter
+@Data
 @Entity
-@Table(name = "autor", schema = "public")// se o schema for public não é obrigado a botar
+@Table(name = "autor", schema = "public")//  se o schema for public não é obrigado a botar
 public class Autor {
 
     @Id
-    @GeneratedValue( strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private UUID id;
 
@@ -35,5 +32,4 @@ public class Autor {
     @Deprecated
     public Autor(){
     }
-
 }
