@@ -7,12 +7,13 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
+@Data
 @Entity
 @Table(name = "livro")
 public class Livro {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
     private UUID id;
 

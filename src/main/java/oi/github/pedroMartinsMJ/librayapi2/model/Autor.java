@@ -13,20 +13,21 @@ import java.util.UUID;
 public class Autor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
     private UUID id;
 
     @Column(name = "nome", length = 100, nullable = false)
     private String nome;
 
-    @Column(name = "data_nascimento", nullable = false)
-    private LocalDate dataNacimento;
-
     @Column(name = "nacionalidade", length = 50 ,nullable = false)
     private String nacionalidade;
 
-    @OneToMany(mappedBy = "autor")
+    @Column(name = "data_nascimento", nullable = false)
+    private LocalDate dataNascimento;
+
+    //@OneToMany(mappedBy = "autor")
+    @Transient
     private List<Livro> livros;
 
     @Deprecated

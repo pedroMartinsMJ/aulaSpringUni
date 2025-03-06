@@ -2,7 +2,7 @@ package oi.github.pedroMartinsMJ.librayapi2.model;
 
 public enum GeneroLivro {
     FICCAO,
-    FATASIA,
+    FANTASIA,
     MISTERIO,
     ROMANCE,
     BIOGRAFIA,
