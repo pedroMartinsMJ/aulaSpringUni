@@ -2,6 +2,7 @@ package oi.github.pedroMartinsMJ.librayapi2.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "autor", schema = "public")//  se o schema for public não é obrigado a botar
+@ToString(exclude = "livros")
 public class Autor {
 
     @Id
@@ -26,8 +28,8 @@ public class Autor {
     @Column(name = "data_nascimento", nullable = false)
     private LocalDate dataNascimento;
 
-    //@OneToMany(mappedBy = "autor")
-    @Transient
+    //@Transient
+    @OneToMany(mappedBy = "autor")
     private List<Livro> livros;
 
     @Deprecated

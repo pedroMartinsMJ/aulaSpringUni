@@ -2,6 +2,7 @@ package oi.github.pedroMartinsMJ.librayapi2.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "livro")
+@ToString(exclude = "autor")
 public class Livro {
 
     @Id
@@ -34,11 +36,23 @@ public class Livro {
     private BigDecimal preco;  //opição alternativa
     //private Double preco;
 
-    @ManyToOne
+    @ManyToOne(
+            //cascade = CascadeType.ALL
+            fetch = FetchType.LAZY//so carrega dentro de uma @Transactional
+    )
     @JoinColumn(name = "id_autor")
     private Autor autor;
 
-    @Deprecated
+    public Livro(String isbn, String titulo, LocalDate data_publicacao, GeneroLivro genero, BigDecimal preco, Autor autor) {
+        this.isbn = isbn;
+        this.titulo = titulo;
+        this.data_publicacao = data_publicacao;
+        this.genero = genero;
+        this.preco = preco;
+        this.autor = autor;
+    }
+
+
     public Livro() {
         //throw new UnsupportedOperationException("Use o construtor parametrizado.");
     }
