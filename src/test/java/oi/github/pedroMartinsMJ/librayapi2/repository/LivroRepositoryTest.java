@@ -6,6 +6,9 @@ import oi.github.pedroMartinsMJ.librayapi2.model.Livro;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -26,13 +29,13 @@ class LivroRepositoryTest {
         livro.setIsbn("1234-5678");
         livro.setTitulo("Heryporter");
         livro.setData_publicacao(LocalDate.of(2002,05,05));
-        livro.setGenero(GeneroLivro.FANTASIA);
+        livro.setGenero(GeneroLivro.BIOGRAFIA);
         livro.setPreco(BigDecimal.valueOf(50.50));
 
         Autor autor = autorRepository
                 .findById(UUID.fromString("a6b51cc0-1c44-484c-ac04-f5d7e05f553d"))
                 .orElse(null);
-        livro.setAutor(autor);
+        //livro.setAutor(autor);
 
         livroRepository.save(livro);
         System.out.println("livro salvo");
@@ -97,9 +100,48 @@ class LivroRepositoryTest {
     @Test
     public void pesquisaPorTitulo() {
         List<Livro> listaLivro = livroRepository.findByTitulo("Senhor dos aneis");
-        listaLivro.add(livroRepository.findByTituloByPreco(BigDecimal.valueOf(70.00)));
+        listaLivro.addAll(livroRepository.findByPreco(BigDecimal.valueOf(70.00)));
 
         listaLivro.forEach(System.out::println);
+    }
+
+    @Test
+    public void listarLivrosPeloTituloPreco() {
+        List<Livro> listaDeLivro = livroRepository.listarTodosOrdernadosPorTituloEPreco();
+
+        listaDeLivro.forEach(System.out::println);
+    }
+
+    @Test
+    public void listarAutoresDeTodosLivros() {
+        List<Autor> listaDeAutores = livroRepository.listarAutoresDosLivros();
+        listaDeAutores.forEach(System.out::println);
+    }
+
+    @Test
+    public void listarPorGeneroQueryParamTest() {
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("data_publicacao").ascending());
+        List<Livro> generoLivro = livroRepository.buscarGeneroComParam(
+                GeneroLivro.FANTASIA, pageable
+        );
+
+        List<Livro> generoLivro2 = livroRepository.buscarGeneroComParam2(
+                GeneroLivro.FANTASIA, "data_publicacao"
+        );
+
+        generoLivro2.forEach(System.out::println);
+        System.out.println("------------------------------");
+        generoLivro.forEach(System.out::println);
+    }
+
+    @Test
+    public void deletePorGeneroTest() {
+        livroRepository.deleteByGenero(GeneroLivro.BIOGRAFIA);
+    }
+
+    @Test
+    public void updateDatalivroGenero() {
+        livroRepository.updateDataPubliccao(LocalDate.of(2025, 11, 3));
     }
 
     private Autor criarAutor(String  nome, String nacionalidade, LocalDate dataNascimento) {
