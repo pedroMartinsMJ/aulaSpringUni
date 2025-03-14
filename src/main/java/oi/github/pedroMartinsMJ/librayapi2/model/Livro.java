@@ -3,13 +3,18 @@ package oi.github.pedroMartinsMJ.librayapi2.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "livro")
 @ToString(exclude = "autor")
 public class Livro {
@@ -42,6 +47,17 @@ public class Livro {
     )
     @JoinColumn(name = "id_autor")
     private Autor autor;
+
+    @CreatedDate
+    @Column(name = "data_cadastro")
+    private LocalDateTime dataCadastro;
+
+    @LastModifiedDate
+    @Column(name = "data_atualizacao")
+    private LocalDateTime dataAtualizacao;
+
+    @Column(name = "id_usuario")
+    private UUID idUsuario;
 
     public Livro(String isbn, String titulo, LocalDate data_publicacao, GeneroLivro genero, BigDecimal preco, Autor autor) {
         this.isbn = isbn;
