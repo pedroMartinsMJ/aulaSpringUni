@@ -27,8 +27,8 @@ public class Autor {
     @Column(name = "nome", length = 100, nullable = false)
     private String nome;
 
-    @Column(name = "nascionalidade", length = 50 ,nullable = false)
-    private String nascionalidade;
+    @Column(name = "nacionalidade", length = 50 ,nullable = false)
+    private String nacionalidade;
 
     @Column(name = "data_nascimento", nullable = false)
     private LocalDate dataNascimento;
@@ -50,13 +50,13 @@ public class Autor {
 
     public Autor(String nome, String nascionalidade, LocalDate dataNascimento) {
         this.nome = nome;
-        this.nascionalidade = nascionalidade;
+        this.nacionalidade = nascionalidade;
         this.dataNascimento = dataNascimento;
     }
 
     public Autor(String nome, String nascionalidade, LocalDate dataNascimento, List<Livro> livros) {
         this.nome = nome;
-        this.nascionalidade = nascionalidade;
+        this.nacionalidade = nascionalidade;
         this.dataNascimento = dataNascimento;
         this.livros = livros;
     }

@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/autores")
@@ -35,4 +39,70 @@ public class AutorController {
 
         return ResponseEntity.created(location).build();
     }
+
+    @GetMapping("{id}")
+    public ResponseEntity<AutorDTO> AutorPorId(@PathVariable("id") String id){
+        UUID path = UUID.fromString(id);
+        Optional<Autor> autorOptional = autorService.obterPorId(path);
+        if(autorOptional.isPresent()){
+            Autor autor = autorOptional.get();
+            AutorDTO dto = new AutorDTO(
+                    autor.getNome(),
+                    autor.getDataNascimento(),
+                    autor.getNacionalidade()
+            );
+            return ResponseEntity.ok(dto);
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> autorDeleteId(@PathVariable("id") String id) {
+        UUID path = UUID.fromString(id);
+        Optional<Autor> autorOptional = autorService.obterPorId(path);
+
+        if(autorOptional.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
+        autorService.deletarPorAutor(autorOptional.get());
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AutorDTO>> pesquisaAutor(
+            @RequestParam(value = "nome", required = false) String nome,
+            @RequestParam(value = "nacionalidade", required = false) String nacionalidade
+    ){
+        List<Autor> listaAutor = autorService.buscaNomeNacionalidade(nome, nacionalidade);
+        List<AutorDTO> autorDTOList = listaAutor
+                .stream()
+                .map(autor -> new AutorDTO(
+                        autor.getNome(),
+                        autor.getDataNascimento(),
+                        autor.getNacionalidade()
+                )).collect(Collectors.toList());
+        return ResponseEntity.ok(autorDTOList);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Void> Atualizar(@PathVariable("id") String id, @RequestBody AutorDTO dto){
+
+        UUID suposto = UUID.fromString(id);
+        Optional<Autor> supostoAutor = autorService.obterPorId(suposto);
+        if(supostoAutor.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
+        Autor autor = supostoAutor.get();
+        autor.setNome(dto.nome());
+        autor.setNacionalidade(dto.nascionalidade());
+        autor.setDataNascimento(dto.dataNascimento());
+
+        autorService.atualizar(autor);
+
+        return ResponseEntity.noContent().build();
+    }
+
 }

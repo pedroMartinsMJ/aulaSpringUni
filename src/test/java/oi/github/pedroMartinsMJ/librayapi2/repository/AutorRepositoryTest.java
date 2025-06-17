@@ -107,13 +107,13 @@ public class AutorRepositoryTest {
     private Autor criarAutor(String  nome, String nacionalidade, LocalDate dataNascimento) {
         Autor autor = new Autor();
         autor.setNome(nome);
-        autor.setNascionalidade(nacionalidade);
+        autor.setNacionalidade(nacionalidade);
         autor.setDataNascimento(dataNascimento);
         return autor;
     }
     private void atualizarAutor(Autor autor, String nome, String nacionalidade, LocalDate dataNascimento) {
         autor.setNome(nome);
-        autor.setNascionalidade(nacionalidade);
+        autor.setNacionalidade(nacionalidade);
         autor.setDataNascimento(dataNascimento);
     }
 }

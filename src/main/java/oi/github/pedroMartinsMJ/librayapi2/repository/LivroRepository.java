@@ -43,7 +43,7 @@ public interface LivroRepository extends JpaRepository<Livro, UUID> {
 
     @Query("""
         select l.genero from Livro l
-        join l.autor a where a.nascionalidade = 'Brasileira'
+        join l.autor a where a.nacionalidade = 'Brasileira'
         order by l.genero
     """)
     List<String> listarGenerosAutoresBrasileiros();
