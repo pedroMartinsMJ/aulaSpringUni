@@ -1,8 +1,7 @@
 package oi.github.pedroMartinsMJ.librayapi2.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -12,33 +11,36 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-@Data
 @Entity
+@Table(name = "autor")
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "autor", schema = "public")//  se o schema for public não é obrigado a botar
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(exclude = "livros")
 public class Autor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
+    @EqualsAndHashCode.Include
     private UUID id;
 
-    @Column(name = "nome", length = 100, nullable = false)
+    @Column(length = 100, nullable = false)
     private String nome;
 
-    @Column(name = "nacionalidade", length = 50 ,nullable = false)
+    @Column(length = 100, nullable = false)
     private String nacionalidade;
 
     @Column(name = "data_nascimento", nullable = false)
     private LocalDate dataNascimento;
 
-    //@Transient
     @OneToMany(mappedBy = "autor")
     private List<Livro> livros;
 
     @CreatedDate
-    @Column(name = "data_cadastro")
+    @Column(name = "data_cadastro", updatable = false)
     private LocalDateTime dataCadastro;
 
     @LastModifiedDate
@@ -48,24 +50,17 @@ public class Autor {
     @Column(name = "id_usuario")
     private UUID idUsuario;
 
-    public Autor(String nome, String nascionalidade, LocalDate dataNascimento) {
+    // Construtor útil para criação rápida
+    public Autor(String nome, String nacionalidade, LocalDate dataNascimento) {
         this.nome = nome;
-        this.nacionalidade = nascionalidade;
+        this.nacionalidade = nacionalidade;
         this.dataNascimento = dataNascimento;
     }
 
-    public Autor(String nome, String nascionalidade, LocalDate dataNascimento, List<Livro> livros) {
+    public Autor(String nome, String nacionalidade, LocalDate dataNascimento, List<Livro> livros) {
         this.nome = nome;
-        this.nacionalidade = nascionalidade;
+        this.nacionalidade = nacionalidade;
         this.dataNascimento = dataNascimento;
         this.livros = livros;
-    }
-
-    public UUID getId() {
-        return this.id;
-    }
-
-    @Deprecated
-    public Autor(){
     }
 }
