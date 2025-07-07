@@ -28,14 +28,14 @@ class LivroRepositoryTest {
         Livro livro = new Livro();
         livro.setIsbn("1234-5678");
         livro.setTitulo("Heryporter");
-        livro.setData_publicacao(LocalDate.of(2002,05,05));
+        livro.setDataPublicacao(LocalDate.of(2002,05,05));
         livro.setGenero(GeneroLivro.BIOGRAFIA);
         livro.setPreco(BigDecimal.valueOf(50.50));
 
         Autor autor = autorRepository
-                .findById(UUID.fromString("a6b51cc0-1c44-484c-ac04-f5d7e05f553d"))
+                .findById(UUID.fromString("26d625ba-51b8-42a9-88c9-6e23a458e1fe"))
                 .orElse(null);
-        //livro.setAutor(autor);
+        livro.setAutor(autor);
 
         livroRepository.save(livro);
         System.out.println("livro salvo");

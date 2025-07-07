@@ -6,6 +6,7 @@ import oi.github.pedroMartinsMJ.librayapi2.model.Livro;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.UUID;
 
 
-public interface LivroRepository extends JpaRepository<Livro, UUID> {
+public interface LivroRepository extends JpaRepository<Livro, UUID>, JpaSpecificationExecutor<Livro> {
     // Query Method
     List<Livro> findByAutor(Autor autor);
 
@@ -28,7 +29,7 @@ public interface LivroRepository extends JpaRepository<Livro, UUID> {
     List<Livro> findByPreco(BigDecimal preco);
 
     //select * from livro where data_publicacao between ? and ?
-    @Query("SELECT l FROM Livro l WHERE l.data_publicacao BETWEEN :inicio AND :fim")
+    @Query("SELECT l FROM Livro l WHERE l.dataPublicacao BETWEEN :inicio AND :fim")
     List<Livro> findByDataPublicacaoBetween(@Param("inicio") LocalDate inicio, @Param("fim") LocalDate fim);
 
 
@@ -72,6 +73,8 @@ public interface LivroRepository extends JpaRepository<Livro, UUID> {
 
     @Modifying
     @Transactional
-    @Query(" update Livro set data_publicacao = ?1 where genero = 'BIOGRAFIA' ")
+    @Query(" update Livro set dataPublicacao = ?1 where genero = 'BIOGRAFIA' ")
     void updateDataPubliccao(LocalDate localDate);
+
+    boolean existsByAutor(Autor autor);
 }

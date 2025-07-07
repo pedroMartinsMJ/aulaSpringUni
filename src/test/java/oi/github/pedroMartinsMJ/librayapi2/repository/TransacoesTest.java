@@ -9,9 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class TransacoesTest {
 
     @Autowired
-    AutorRepository autorRepository;
+    private AutorRepository autorRepository;
     @Autowired
-    LivroRepository livroRepository;
+    private LivroRepository livroRepository;
 
 
     /**

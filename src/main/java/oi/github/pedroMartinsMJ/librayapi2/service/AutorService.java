@@ -1,30 +1,32 @@
 package oi.github.pedroMartinsMJ.librayapi2.service;
 
-import oi.github.pedroMartinsMJ.librayapi2.execeptions.AutorBuscaSQLnaoEncontrado;
+import lombok.RequiredArgsConstructor;
+import oi.github.pedroMartinsMJ.librayapi2.execeptions.BuscaSQLnaoEncontrado;
+import oi.github.pedroMartinsMJ.librayapi2.execeptions.OperacaoNaoPermitida;
 import oi.github.pedroMartinsMJ.librayapi2.model.Autor;
 import oi.github.pedroMartinsMJ.librayapi2.repository.AutorRepository;
+import oi.github.pedroMartinsMJ.librayapi2.repository.LivroRepository;
 import oi.github.pedroMartinsMJ.librayapi2.validador.AutorValidator;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class AutorService {
 
     private final AutorRepository autorRepository;
     private final AutorValidator validator;
-
-    private AutorService(AutorRepository autorRepository, AutorValidator validator){
-        this.autorRepository = autorRepository;
-        this.validator = validator;
-    }
+    private final LivroRepository livroRepository;
 
     public Autor salvar(Autor autor) {
         validator.validarCamposObrigatorios(autor);
+        validator.validar(autor);
         return autorRepository.save(autor);
     }
 
@@ -33,6 +35,9 @@ public class AutorService {
     }
 
     public void deletarPorAutor(Autor autor){
+        if (possuiLivro(autor)){
+            throw new OperacaoNaoPermitida("Autor possui livros cadastrados");
+        }
         autorRepository.delete(autor);
     }
 
@@ -62,12 +67,30 @@ public class AutorService {
         return Collections.emptyList();
     }
 
+    public List<Autor> buscaNomeNacionalidadeByExample(String nome, String nacionalidade){
+        Autor autor = new Autor();
+        autor.setNome(nome);
+        autor.setNacionalidade(nacionalidade);
+
+        ExampleMatcher matcher = ExampleMatcher
+                .matching()
+                .withIgnorePaths("id", "dataNascimento", "dataCadastro", "dataAtualizacao")
+                .withIgnoreNullValues()
+                .withIgnoreCase()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+        Example<Autor> autorExample = Example.of(autor, matcher);
+        return autorRepository.findAll(autorExample);
+    }
+
     private List<Autor> verificarSeListaEstaVazia(List<Autor> lista){
         if (lista.isEmpty()){
-            throw new AutorBuscaSQLnaoEncontrado("Nenhum autor encontrado com os critérios fornecidos, busca SQL");
+            throw new BuscaSQLnaoEncontrado("Nenhum autor encontrado com os critérios fornecidos, busca SQL");
         }
         return lista;
     }
 
+    public boolean possuiLivro(Autor autor){
+        return livroRepository.existsByAutor(autor);
+    }
 
 }

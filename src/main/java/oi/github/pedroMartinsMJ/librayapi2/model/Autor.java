@@ -1,5 +1,6 @@
 package oi.github.pedroMartinsMJ.librayapi2.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -37,6 +38,7 @@ public class Autor {
     private LocalDate dataNascimento;
 
     @OneToMany(mappedBy = "autor")
+    @JsonManagedReference
     private List<Livro> livros;
 
     @CreatedDate

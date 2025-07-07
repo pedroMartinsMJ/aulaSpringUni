@@ -1,5 +1,7 @@
 package oi.github.pedroMartinsMJ.librayapi2.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
@@ -24,14 +26,14 @@ public class Livro {
     @Column(name = "id")
     private UUID id;
 
-    @Column(name = "isbn", length = 20, nullable = false)
+    @Column(name = "isbn", length = 20, nullable = false, unique = true)
     private String isbn;
 
     @Column(name = "titulo", length = 150, nullable = false)
     private String titulo;
 
     @Column(name = "data_publicacao", nullable = false)
-    private LocalDate data_publicacao;
+    private LocalDate dataPublicacao;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "genero", length = 30, nullable = false)
@@ -45,6 +47,7 @@ public class Livro {
             //cascade = CascadeType.ALL
             fetch = FetchType.LAZY//so carrega dentro de uma @Transactional
     )
+    @JsonIgnoreProperties("livros")
     @JoinColumn(name = "id_autor")
     private Autor autor;
 
@@ -59,17 +62,16 @@ public class Livro {
     @Column(name = "id_usuario")
     private UUID idUsuario;
 
-    public Livro(String isbn, String titulo, LocalDate data_publicacao, GeneroLivro genero, BigDecimal preco, Autor autor) {
+    public Livro(String isbn, String titulo, LocalDate dataPublicacao, GeneroLivro genero, BigDecimal preco, Autor autor) {
         this.isbn = isbn;
         this.titulo = titulo;
-        this.data_publicacao = data_publicacao;
+        this.dataPublicacao = dataPublicacao;
         this.genero = genero;
         this.preco = preco;
         this.autor = autor;
     }
 
+    public Livro(){
 
-    public Livro() {
-        //throw new UnsupportedOperationException("Use o construtor parametrizado.");
     }
 }
