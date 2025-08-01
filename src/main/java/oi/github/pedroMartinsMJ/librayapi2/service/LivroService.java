@@ -6,10 +6,13 @@ import oi.github.pedroMartinsMJ.librayapi2.model.GeneroLivro;
 import oi.github.pedroMartinsMJ.librayapi2.model.Livro;
 import oi.github.pedroMartinsMJ.librayapi2.repository.LivroRepository;
 import oi.github.pedroMartinsMJ.librayapi2.repository.specs.LivroSpecs;
+import oi.github.pedroMartinsMJ.librayapi2.validador.LivroValidador;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -17,8 +20,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class LivroService {
     private final LivroRepository livroRepository;
+    private final LivroValidador livroValidador;
 
    public Livro salvar(Livro livro){
+       livroValidador.validar(livro);
        return livroRepository.save(livro);
    }
 
@@ -36,21 +41,42 @@ public class LivroService {
         livroRepository.delete(livro);
     }
 
-    public List<Livro> pesquisa(String isbn,String titulo, String nomeAutor, GeneroLivro genero, Integer anoPubliccacao) {
+    public void atulaizarLivro(UUID id, Livro livroAtualizado){
+       Optional<Livro> livroOptional = livroRepository.findById(id);
 
-        Specification<Livro> specs = Specification
-                .where((root, query, cb) -> cb.conjunction());
+       if (livroOptional.isEmpty()){
+           throw new BuscaSQLnaoEncontrado("livro a ser atualizado não existe");
+       }
+       Livro livro = livroOptional.get();
+       livro.setTitulo(livroAtualizado.getTitulo());
+       livro.setIsbn(livroAtualizado.getIsbn());
+       livro.setDataPublicacao(livroAtualizado.getDataPublicacao());
+       livro.setGenero(livroAtualizado.getGenero());
+       livro.setPreco(livroAtualizado.getPreco());
+       livro.setAutor(livroAtualizado.getAutor());
+       livroValidador.validar(livro);
+       livroRepository.save(livro);
+    }
 
-        if (isbn != null){
+    public Page<Livro> pesquisa(String isbn, String titulo, String nomeAutor, GeneroLivro genero, Integer anoPublicacao, Pageable pageable) {
+        Specification<Livro> specs = Specification.where((root, query, cb) -> cb.conjunction());
+
+        if (isbn != null) {
             specs = specs.and(LivroSpecs.isbnEqual(isbn));
         }
-        if (titulo != null){
+        if (titulo != null) {
             specs = specs.and(LivroSpecs.tituloLike(titulo));
         }
-        if (genero != null){
+        if (genero != null) {
             specs = specs.and(LivroSpecs.generoEqual(genero));
         }
+        if (anoPublicacao != null) {
+            specs = specs.and(LivroSpecs.anoPublicacaoEqual(anoPublicacao));
+        }
+        if (nomeAutor != null) {
+            specs = specs.and(LivroSpecs.nomeAutorLike(nomeAutor));
+        }
 
-        return livroRepository.findAll(LivroSpecs.isbnEqual(isbn));
+        return livroRepository.findAll(specs, pageable);
     }
 }

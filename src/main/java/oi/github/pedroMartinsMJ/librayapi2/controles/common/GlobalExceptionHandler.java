@@ -2,10 +2,7 @@ package oi.github.pedroMartinsMJ.librayapi2.controles.common;
 
 import oi.github.pedroMartinsMJ.librayapi2.controles.dto.ErroCampo;
 import oi.github.pedroMartinsMJ.librayapi2.controles.dto.ErroResposta;
-import oi.github.pedroMartinsMJ.librayapi2.execeptions.BuscaSQLnaoEncontrado;
-import oi.github.pedroMartinsMJ.librayapi2.execeptions.CamposPostMalInseridos;
-import oi.github.pedroMartinsMJ.librayapi2.execeptions.OperacaoNaoPermitida;
-import oi.github.pedroMartinsMJ.librayapi2.execeptions.RegistroDuplicadoException;
+import oi.github.pedroMartinsMJ.librayapi2.execeptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -57,6 +54,15 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErroResposta camposPostMalInseridos(CamposPostMalInseridos e) {
         return ErroResposta.conflito(e.getMessage());
+    }
+
+    @ExceptionHandler(CampoInvalidoException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public ErroResposta campoInvalidoException(CampoInvalidoException e){
+        return new ErroResposta(
+                HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                "Erro de validação",
+                List.of(new ErroCampo(e.getCampo(), e.getMessage())));
     }
 
     @ExceptionHandler(RuntimeException.class)

@@ -3,8 +3,8 @@ package oi.github.pedroMartinsMJ.librayapi2.repository;
 import oi.github.pedroMartinsMJ.librayapi2.model.Autor;
 import oi.github.pedroMartinsMJ.librayapi2.model.GeneroLivro;
 import oi.github.pedroMartinsMJ.librayapi2.model.Livro;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -15,10 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 
 public interface LivroRepository extends JpaRepository<Livro, UUID>, JpaSpecificationExecutor<Livro> {
+
+    Page<Livro> findByAutor(Autor autor, Pageable pageable);
+
     // Query Method
     List<Livro> findByAutor(Autor autor);
 
@@ -27,6 +31,8 @@ public interface LivroRepository extends JpaRepository<Livro, UUID>, JpaSpecific
     List<Livro> findByTituloAndPreco(String titulo, BigDecimal preco);
 
     List<Livro> findByPreco(BigDecimal preco);
+
+    Optional<Livro> findByIsbn(String isbn);
 
     //select * from livro where data_publicacao between ? and ?
     @Query("SELECT l FROM Livro l WHERE l.dataPublicacao BETWEEN :inicio AND :fim")
