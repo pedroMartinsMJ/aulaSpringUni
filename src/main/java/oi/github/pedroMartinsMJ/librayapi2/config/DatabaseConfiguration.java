@@ -32,6 +32,7 @@ public class DatabaseConfiguration {
         return ds;
     }
 
+    //@Bean mais recomendado
     public DataSource HikariDataSource(){
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(url);
