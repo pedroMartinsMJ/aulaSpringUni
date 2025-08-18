@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.UUID;
 
 @SpringBootTest
-@ActiveProfiles("test")
 class LivroRepositoryTest {
     @Autowired
     public AutorRepository autorRepository;

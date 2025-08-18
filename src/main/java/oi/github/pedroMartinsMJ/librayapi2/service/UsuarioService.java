@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,6 +27,10 @@ public class UsuarioService {
         Arrays.stream(usuarios)
                 .forEach(usuario -> usuario.setSenha(passwordEncoder.encode(usuario.getSenha())));
         usuarioRepository.saveAll(Arrays.asList(usuarios));
+    }
+
+    public List<Usuario> buscarUsuarios(){
+        return usuarioRepository.findAll();
     }
 
 

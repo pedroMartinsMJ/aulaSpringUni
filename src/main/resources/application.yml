@@ -2,6 +2,7 @@ spring:
 #  config:
 #    activate:
 #      on-profile: test
+#      <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation -->
   application:
     name: aulaSpringUni
   datasource:
@@ -12,8 +13,8 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-#     ddl-auto: update
-     ddl-auto: create-drop
+     ddl-auto: update
+#     ddl-auto: create-drop
 #     ddl-auto: none
     properties:
       hibernate:
