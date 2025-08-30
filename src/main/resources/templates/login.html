@@ -118,17 +118,10 @@
                 <button type="submit" class="btn btn-primary btn-lg">Entrar</button>
             </div>
 
-            <p class="text-center mt-3">
-                <a href="#">Esqueceu a senha?</a>
-            </p>
-
             <div class="text-center">
                 <p class="mb-2">Ou entre com:</p>
-                <button type="button" class="btn btn-outline-primary btn-floating mx-1">
-                    <i class="fab fa-facebook-f"></i> Facebook
-                </button>
-                <button type="button" class="btn btn-outline-danger btn-floating mx-1">
-                    <i class="fab fa-google"></i> Google
+                <button id="google-login" type="button" class="btn btn-outline-danger btn-floating mx-1">
+                    <i th:href="@{/oauth2/authorization/google}" class="fab fa-google"></i> Google
                 </button>
             </div>
 
@@ -148,6 +141,10 @@
       document.querySelectorAll('.is-invalid').forEach(el => {
         el.classList.remove('is-invalid');
       });
+    });
+
+    document.getElementById("google-login").addEventListener("click", function() {
+        window.location.href = "/oauth2/authorization/google";
     });
 </script>
 </body>

@@ -9,6 +9,7 @@ import oi.github.pedroMartinsMJ.librayapi2.model.Usuario;
 import oi.github.pedroMartinsMJ.librayapi2.service.AutorService;
 
 import oi.github.pedroMartinsMJ.librayapi2.service.UsuarioService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -34,15 +35,9 @@ public class AutorController implements GenericController{
     //não vai retorna bory, entao poder ser Void
     @PostMapping
     @PreAuthorize("hasAnyRole('GERENTE')")
-    public ResponseEntity<Void> salvar(@RequestBody @Valid AutorDTO autorDTO,
-                                       Authentication authentication){
-        System.out.println(authentication);
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        Usuario usuario = usuarioService.obterPorLogin(userDetails.getUsername());
-
+    public ResponseEntity<Void> salvar(@RequestBody @Valid AutorDTO autorDTO){
 
         Autor supostoAutor = autorMapper.toEntity(autorDTO);
-        supostoAutor.setIdUsuario(usuario.getId());
         autorService.salvar(supostoAutor);
 
         //http://localhost:8080/autores/

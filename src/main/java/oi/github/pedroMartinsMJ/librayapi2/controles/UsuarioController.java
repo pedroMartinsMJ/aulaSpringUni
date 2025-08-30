@@ -1,10 +1,12 @@
 package oi.github.pedroMartinsMJ.librayapi2.controles;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import oi.github.pedroMartinsMJ.librayapi2.controles.dto.UsuarioDTO;
 import oi.github.pedroMartinsMJ.librayapi2.controles.mappers.UsuarioMapper;
 import oi.github.pedroMartinsMJ.librayapi2.model.Usuario;
 import oi.github.pedroMartinsMJ.librayapi2.service.UsuarioService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,7 +24,7 @@ public class UsuarioController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void salvar(@RequestBody UsuarioDTO usuarioDTO){
+    public void salvar(@RequestBody @Valid UsuarioDTO usuarioDTO){
         Usuario usuario = usuarioMapper.toEntity(usuarioDTO);
         usuarioService.salvar(usuario);
     }

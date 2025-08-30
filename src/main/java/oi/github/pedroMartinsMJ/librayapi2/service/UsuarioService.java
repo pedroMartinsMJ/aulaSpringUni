@@ -1,13 +1,16 @@
 package oi.github.pedroMartinsMJ.librayapi2.service;
 
 import lombok.RequiredArgsConstructor;
+import oi.github.pedroMartinsMJ.librayapi2.execeptions.BuscaSQLnaoEncontrado;
 import oi.github.pedroMartinsMJ.librayapi2.model.Usuario;
 import oi.github.pedroMartinsMJ.librayapi2.repository.UsuarioRepository;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,6 +38,16 @@ public class UsuarioService {
 
 
     public Usuario obterPorLogin(String login){
-        return usuarioRepository.findByLogin(login);
+        Usuario supostoUsuario = usuarioRepository.findByLogin(login);
+
+        if (supostoUsuario == null) {
+            throw new UsernameNotFoundException("não foi encontrado o Login do usuario");
+        }
+
+        return supostoUsuario;
+    }
+
+    public Usuario obterPorEmail(String email){
+        return usuarioRepository.findByEmail(email);
     }
 }

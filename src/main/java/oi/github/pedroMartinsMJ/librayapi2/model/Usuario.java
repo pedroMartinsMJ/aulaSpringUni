@@ -28,12 +28,16 @@ public class Usuario {
     @Column(name = "login")
     private String login;
 
+    @Column(name = "email")
+    private String email;
+
     @Column(name = "senha")
     private String senha;
 
     @Type(ListArrayType.class)
     @Column(name = "roles", columnDefinition = "varchar[]")
     private List<String> roles = new ArrayList<>();
+
 
     public Usuario(){
         //ola

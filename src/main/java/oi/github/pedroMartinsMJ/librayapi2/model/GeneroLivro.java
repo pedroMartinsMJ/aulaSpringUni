@@ -6,6 +6,9 @@ public enum GeneroLivro {
     MISTERIO,
     ROMANCE,
     BIOGRAFIA,
-    SUSPENSE, THRILLER, DRAMA, CIENCIA
+    SUSPENSE,
+    THRILLER,
+    DRAMA,
+    CIENCIA
 }
 

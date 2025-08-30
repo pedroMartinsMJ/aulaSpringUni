@@ -6,7 +6,9 @@ import oi.github.pedroMartinsMJ.librayapi2.model.GeneroLivro;
 import oi.github.pedroMartinsMJ.librayapi2.model.Livro;
 import oi.github.pedroMartinsMJ.librayapi2.repository.LivroRepository;
 import oi.github.pedroMartinsMJ.librayapi2.repository.specs.LivroSpecs;
+import oi.github.pedroMartinsMJ.librayapi2.security.SecurityService;
 import oi.github.pedroMartinsMJ.librayapi2.validador.LivroValidador;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,10 +22,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class LivroService {
     private final LivroRepository livroRepository;
+    private final SecurityService securityService;
     private final LivroValidador livroValidador;
 
    public Livro salvar(Livro livro){
        livroValidador.validar(livro);
+       livro.setIdUsuario(securityService.obterUsuarioLogado().getId());
        return livroRepository.save(livro);
    }
 

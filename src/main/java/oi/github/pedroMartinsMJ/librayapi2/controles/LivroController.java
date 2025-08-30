@@ -8,6 +8,7 @@ import oi.github.pedroMartinsMJ.librayapi2.controles.mappers.LivroMapper;
 import oi.github.pedroMartinsMJ.librayapi2.model.GeneroLivro;
 import oi.github.pedroMartinsMJ.librayapi2.model.Livro;
 import oi.github.pedroMartinsMJ.librayapi2.service.LivroService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;

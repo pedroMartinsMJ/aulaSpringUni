@@ -6,6 +6,7 @@ import oi.github.pedroMartinsMJ.librayapi2.execeptions.OperacaoNaoPermitida;
 import oi.github.pedroMartinsMJ.librayapi2.model.Autor;
 import oi.github.pedroMartinsMJ.librayapi2.repository.AutorRepository;
 import oi.github.pedroMartinsMJ.librayapi2.repository.LivroRepository;
+import oi.github.pedroMartinsMJ.librayapi2.security.SecurityService;
 import oi.github.pedroMartinsMJ.librayapi2.validador.AutorValidator;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -22,10 +23,12 @@ public class AutorService {
 
     private final AutorRepository autorRepository;
     private final AutorValidator validator;
+    private final SecurityService securityService;
     private final LivroRepository livroRepository;
 
     public Autor salvar(Autor autor) {
         validator.validarCamposObrigatorios(autor);
+        autor.setIdUsuario(securityService.obterUsuarioLogado().getId());
         validator.validar(autor);
         return autorRepository.save(autor);
     }
