@@ -85,4 +85,5 @@ public class GlobalExceptionHandler {
                 "Erro inesperado, entre em contato com a administração",
                 List.of());
     }
+
 }

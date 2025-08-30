@@ -1,5 +1,6 @@
 package oi.github.pedroMartinsMJ.librayapi2.validador;
 
+
 import lombok.RequiredArgsConstructor;
 import oi.github.pedroMartinsMJ.librayapi2.execeptions.CampoInvalidoException;
 import oi.github.pedroMartinsMJ.librayapi2.execeptions.RegistroDuplicadoException;

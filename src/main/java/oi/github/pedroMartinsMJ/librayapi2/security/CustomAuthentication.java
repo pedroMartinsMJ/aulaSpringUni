@@ -1,5 +1,6 @@
 package oi.github.pedroMartinsMJ.librayapi2.security;
 
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import oi.github.pedroMartinsMJ.librayapi2.model.Usuario;

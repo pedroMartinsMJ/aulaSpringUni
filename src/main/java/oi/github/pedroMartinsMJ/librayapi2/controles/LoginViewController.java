@@ -1,5 +1,6 @@
 package oi.github.pedroMartinsMJ.librayapi2.controles;
 
+
 import oi.github.pedroMartinsMJ.librayapi2.security.CustomAuthentication;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;

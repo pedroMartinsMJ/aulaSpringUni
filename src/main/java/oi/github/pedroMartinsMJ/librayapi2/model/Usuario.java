@@ -1,5 +1,6 @@
 package oi.github.pedroMartinsMJ.librayapi2.model;
 
+
 import io.hypersistence.utils.hibernate.type.array.ListArrayType;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;

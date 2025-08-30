@@ -1,5 +1,6 @@
 package oi.github.pedroMartinsMJ.librayapi2.execeptions;
 
+
 import lombok.Getter;
 
 public class CampoInvalidoException extends RuntimeException {

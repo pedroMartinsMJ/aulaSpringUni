@@ -1,5 +1,6 @@
 package oi.github.pedroMartinsMJ.librayapi2.repository;
 
+
 import oi.github.pedroMartinsMJ.librayapi2.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

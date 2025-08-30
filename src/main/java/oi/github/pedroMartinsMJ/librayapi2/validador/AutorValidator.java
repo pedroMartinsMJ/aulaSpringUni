@@ -1,5 +1,6 @@
 package oi.github.pedroMartinsMJ.librayapi2.validador;
 
+
 import oi.github.pedroMartinsMJ.librayapi2.execeptions.CamposPostMalInseridos;
 import oi.github.pedroMartinsMJ.librayapi2.execeptions.RegistroDuplicadoException;
 import oi.github.pedroMartinsMJ.librayapi2.model.Autor;
