@@ -1,24 +1,36 @@
 spring:
+  profiles:
+    active: dev
 #  config:
 #    activate:
 #      on-profile: test
 #      <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation -->
+
   application:
     name: aulaSpringUni
+
   datasource:
     url: jdbc:postgresql://localhost:5432/library
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
+
   jpa:
     show-sql: true
     hibernate:
      ddl-auto: update
-#     ddl-auto: create-drop
+#      ddl-auto: create-drop
 #     ddl-auto: none
     properties:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
 

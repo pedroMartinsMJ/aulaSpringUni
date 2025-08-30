@@ -29,5 +29,8 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+# Arquivos locais de configuração
+src/main/resources/application-dev.yml
+
 ### VS Code ###
 .vscode/
