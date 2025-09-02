@@ -19,6 +19,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -28,27 +33,28 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, LoginSocialSuccessHandler successHandler) throws Exception {
         return httpSecurity
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable) // desabilita CSRF para chamadas REST
+                .cors(Customizer.withDefaults()) // habilita CORS
                 //.headers(headers -> headers.frameOptions(frame -> frame.disable()))
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> {
-                    authorize.requestMatchers("/login/**").permitAll();
+                    //authorize.requestMatchers("/login/**").permitAll();
                     authorize.requestMatchers("/h2-console/**").permitAll();
                     authorize.requestMatchers(HttpMethod.POST, "/usuarios/**").permitAll();
                    // authorize.requestMatchers(HttpMethod.DELETE).hasAnyRole("GERENTE00");
                     authorize.anyRequest().authenticated(); // sempre por último
                 })
 //                .formLogin(Customizer.withDefaults())
-                .formLogin(confugurer ->
-                        confugurer
-                                .loginPage("/login")
-                                .permitAll() // libera login
-                )
-                .oauth2Login( oauth2 -> {
-                    oauth2
-                            .loginPage("/login")
-                            .successHandler(successHandler);
-                })
+//                .formLogin(confugurer ->
+//                        confugurer
+//                                .loginPage("/login")
+//                                .permitAll() // libera login
+//                )
+//                .oauth2Login( oauth2 -> {
+//                    oauth2
+//                            .loginPage("/login")
+//                            .successHandler(successHandler);
+//                })
                 .build();
     }
 
@@ -74,5 +80,19 @@ public class SecurityConfiguration {
 //
         return new UserSecurityConfiguration(usuarioService);
     }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // ajuste para porta do seu React
+        configuration.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
 
 }
