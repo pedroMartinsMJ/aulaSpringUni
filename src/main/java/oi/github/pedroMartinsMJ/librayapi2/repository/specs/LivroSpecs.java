@@ -1,5 +1,6 @@
 package oi.github.pedroMartinsMJ.librayapi2.repository.specs;
 
+
 import oi.github.pedroMartinsMJ.librayapi2.model.GeneroLivro;
 import oi.github.pedroMartinsMJ.librayapi2.model.Livro;
 import org.springframework.data.jpa.domain.Specification;

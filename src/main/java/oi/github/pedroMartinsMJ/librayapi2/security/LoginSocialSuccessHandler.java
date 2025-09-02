@@ -1,5 +1,6 @@
 package oi.github.pedroMartinsMJ.librayapi2.security;
 
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,13 +15,13 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class LoginSocialSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-
-
+    private static final String SENHA_PADRAO = "112233";
     private final UsuarioService usuarioService;
 
     @Override
@@ -51,6 +52,8 @@ public class LoginSocialSuccessHandler extends SavedRequestAwareAuthenticationSu
         Usuario usuario = new Usuario();
         usuario.setLogin(oAuth2User.getAttribute("name"));
         usuario.setEmail(oAuth2User.getAttribute("email"));
+        usuario.setSenha(SENHA_PADRAO);
+        usuario.setRoles(List.of("OPERADOR"));
         usuarioService.salvar(usuario);
         return usuarioService.obterPorLogin(usuario.getLogin());
     }

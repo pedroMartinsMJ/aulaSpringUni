@@ -20,5 +20,6 @@ public record UsuarioDTO(
         String senha,
 
         List<String> roles
+
 ) {
 }

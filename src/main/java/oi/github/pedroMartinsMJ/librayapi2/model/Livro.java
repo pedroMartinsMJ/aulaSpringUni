@@ -1,5 +1,6 @@
 package oi.github.pedroMartinsMJ.librayapi2.model;
 
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;

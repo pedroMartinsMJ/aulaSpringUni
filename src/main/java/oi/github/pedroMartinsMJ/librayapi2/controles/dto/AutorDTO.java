@@ -13,6 +13,7 @@ public record AutorDTO(
         @NotBlank(message = "campo obrigatorio")
         @Size(min = 2, max = 50, message = "campo fora do padrão")
         String nacionalidade
+
 ) {
 
 }

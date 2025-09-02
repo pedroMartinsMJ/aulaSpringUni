@@ -49,5 +49,4 @@ public class DatabaseConfiguration {
 
         return new HikariDataSource(config);//não tem como instancia o Hikari sem uma config
     }
-
 }

@@ -1,5 +1,6 @@
 package oi.github.pedroMartinsMJ.librayapi2.model;
 
+
 import io.hypersistence.utils.hibernate.type.array.ListArrayType;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
@@ -25,13 +26,13 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "login")
+    @Column(name = "login", nullable = false, length = 200)
     private String login;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, length = 250)
     private String email;
 
-    @Column(name = "senha")
+    @Column(name = "senha", nullable = false, length = 100)
     private String senha;
 
     @Type(ListArrayType.class)
